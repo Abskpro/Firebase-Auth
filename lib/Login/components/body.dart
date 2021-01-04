@@ -160,6 +160,7 @@ class _BodyState extends State<Body> {
                   PasswordInput(
                     text: "Password",
                     screen: "login",
+                    type:"password",
                     controller: passwordController,
                     validate: validatePassword,
                     onChanged: onChanged,

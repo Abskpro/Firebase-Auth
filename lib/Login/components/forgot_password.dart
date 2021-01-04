@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zeroday/Components/email_input.dart';
+import 'package:zeroday/Components/reset_button.dart';
 import 'package:zeroday/Components/text_field_container.dart';
 import 'package:zeroday/bloc/loginBloc/login_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -120,19 +121,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     validate: validateEmail,
                     onChanged: onChanged,
                   ),
-                  Container(
-                    width: size.width * 0.3,
-                    height: 50,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(29),
-                      child: RaisedButton(
-                        onPressed:
-                            validateEmail(checkEmpty: true) ? validate : null,
-                        padding: EdgeInsets.all(10),
-                        child: Text("RESET"),
-                      ),
-                    ),
-                  )
+                  ResetButton(
+                    validateEmail: validateEmail,
+                    press: validate,
+                    text: "RESET",
+                    color: Colors.blue,
+                  ),
                 ],
               ),
             ),
