@@ -21,14 +21,14 @@ class _EmailInputState extends State<EmailInput> {
     return TextFieldContainer(
         child: TextFormField(
       controller: widget.controller,
-      validator: (value){
-        if(value.isEmpty){
+      validator: (value) {
+        if (value.isEmpty) {
           return "email is required";
         }
         return null;
       },
       onChanged: (value) => widget.onChanged("email", value),
-      autovalidateMode:AutovalidateMode.onUserInteraction,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.supervisor_account),
         errorText: widget.validate() ? null : "enter a valid email",
