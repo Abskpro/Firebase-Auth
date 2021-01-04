@@ -24,6 +24,9 @@ class _NumberInputState extends State<NumberInput> {
             if(value.isEmpty){
               return "Number is required";
             }
+            if(!RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$').hasMatch(value)){
+              return "Only numbers";
+            }
             return null;
           },
           autovalidateMode: AutovalidateMode.onUserInteraction,

@@ -113,7 +113,7 @@ class _BodyState extends State<Body> {
 
   bool validateNumber({checkEmpty: false}) {
     print("validating number");
-    return (number.isEmpty && !checkEmpty) || number.length == 10;
+    return (number.isEmpty && !checkEmpty) || number.length == 10 || RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$').hasMatch(number);
   }
 
   bool validateConfirmPassword({checkEmpty: false}) {
