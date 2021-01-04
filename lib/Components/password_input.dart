@@ -45,7 +45,6 @@ class _PasswordInputState extends State<PasswordInput> {
         }
         return null;
       },
-      // onChanged: (value) => widget.onChanged("confirmPassword", value),
        onChanged: (value){
             if(widget.type == "password"){
               widget.onChanged("password", value);
