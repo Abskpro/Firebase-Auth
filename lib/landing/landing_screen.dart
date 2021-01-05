@@ -8,8 +8,6 @@ import 'package:zeroday/Login/login_screen.dart';
 import 'package:zeroday/bloc/homeBloc/home_bloc.dart';
 import 'package:zeroday/bloc/homeBloc/home_event.dart';
 import 'package:zeroday/bloc/homeBloc/home_state.dart';
-import 'package:zeroday/models/interns.dart';
-import 'package:provider/provider.dart';
 import 'package:zeroday/repositories/user_repository.dart';
 
 class LandingPage extends StatefulWidget {
@@ -74,9 +72,21 @@ class _LandingPageState extends State<LandingPage> {
                     var lastSignIn = widget.user.metadata.lastSignInTime;
                     return Container(
                       alignment: Alignment.center,
-                      child:Card(
+                      child: Card(
                         child: Column(
-                          children: [Text("Email: $email",style: TextStyle(fontWeight: FontWeight.bold),), Text("Id: $uid",style: TextStyle(fontWeight: FontWeight.bold),),Text("LastSignIn:$lastSignIn", style: TextStyle(fontWeight: FontWeight.bold),)
+                          children: [
+                            Text(
+                              "Email: $email",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "Id: $uid",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "LastSignIn:$lastSignIn",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )
                           ],
                         ),
                       ),

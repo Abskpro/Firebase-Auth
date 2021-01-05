@@ -6,7 +6,6 @@ import 'package:zeroday/bloc/authBloc/auth_event.dart';
 import 'package:zeroday/bloc/authBloc/auth_state.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:zeroday/bloc/homeBloc/home_state.dart';
-import 'package:zeroday/bloc/loginBloc/login_state.dart';
 import 'package:zeroday/bloc/resetBloc/reset_state.dart';
 import 'package:zeroday/landing/landing_screen.dart';
 import 'package:zeroday/repositories/user_repository.dart';
