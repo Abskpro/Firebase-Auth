@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zeroday/Components/email_input.dart';
 import 'package:zeroday/Components/reset_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:zeroday/Login/login_screen.dart';
 import 'package:zeroday/bloc/resetBloc/reset_bloc.dart';
 import 'package:zeroday/bloc/resetBloc/reset_event.dart';
 import 'package:zeroday/bloc/resetBloc/reset_state.dart';
@@ -72,8 +73,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         body: BlocConsumer<ResetBloc, ResetState>(listener: (context, state) {
           print("state has changed $state");
           if (state is PasswordResetEmailSentState) {
-            Navigator.pop(context);
-            Navigator.pop(context);
+            // Navigator.pop(context);
+            // Navigator.pop(context);
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) =>
+                        LoginScreen(userRepository: widget.userRepository)),
+                (Route<dynamic> route) => false);
             Fluttertoast.showToast(
               msg: "Email reset link has been sent to your mail",
               toastLength: Toast.LENGTH_SHORT,
