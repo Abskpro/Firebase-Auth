@@ -26,53 +26,51 @@ class PasswordInput extends StatefulWidget {
 
 class _PasswordInputState extends State<PasswordInput> {
   bool visibility;
-  void initState(){
+  void initState() {
     super.initState();
     visibility = false;
   }
+
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
         child: TextFormField(
       controller: widget.controller,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value){
-        if(value.isEmpty){
+      validator: (value) {
+        if (value.isEmpty) {
           return "password is required";
         }
-        if(value.length < 8){
+        if (value.length < 8) {
           return "password must be 8 char";
         }
         return null;
       },
-       onChanged: (value){
-            if(widget.type == "password"){
-              widget.onChanged("password", value);
-            }else{
-              widget.onChanged("confirmPassword",value);
-            }
-            },
-          obscureText: visibility,
+      onChanged: (value) {
+        if (widget.type == "password") {
+          widget.onChanged("password", value);
+        } else {
+          widget.onChanged("confirmPassword", value);
+        }
+      },
+      obscureText: visibility,
       decoration: InputDecoration(
-        errorText:widget.validate() ? null : "password must match",
+        errorText: widget.validate() ? null : "password must match",
         hintText: widget.text,
         prefixIcon: Icon(
           Icons.lock_outline,
           color: kPrimaryColor,
         ),
         suffixIcon: InkWell(
-          onTap:(){
+          onTap: () {
             setState(() {
               visibility = !visibility;
             });
           },
-          child:Icon(visibility ? Icons.visibility : Icons.visibility_off),
-
+          child: Icon(visibility ? Icons.visibility_off : Icons.visibility),
         ),
         border: InputBorder.none,
       ),
     ));
   }
 }
-
-

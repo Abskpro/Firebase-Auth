@@ -47,7 +47,7 @@ class App extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         print(state);
-        if (state is AuthInitialState) {
+        if (state is AuthInitialState || state is LogOutSuccessState) {
           return LoginScreen(userRepository: userRepository);
         } else if (state is AuthenticatedState) {
           return LandingPage(user: state.user, userRepository: userRepository);

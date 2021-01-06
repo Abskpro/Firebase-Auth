@@ -9,7 +9,7 @@ import 'package:zeroday/bloc/resetBloc/reset_state.dart';
 import 'package:zeroday/repositories/user_repository.dart';
 
 class ForgotPassword extends StatefulWidget {
-  UserRepository userRepository;
+  final UserRepository userRepository;
   ForgotPassword({this.userRepository});
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();

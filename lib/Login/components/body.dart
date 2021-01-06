@@ -108,6 +108,8 @@ class _BodyState extends State<Body> {
           child: SingleChildScrollView(
         child: BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
           if (state is LoginSuccessState) {
+            Navigator.pop(context);
+            Navigator.pop(context);
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
               return LandingPage(
                   user: state.user, userRepository: widget.userRepository);
@@ -116,11 +118,9 @@ class _BodyState extends State<Body> {
           if (state is LoginFailState) {
             Navigator.pop(context);
             print("error >> ${state.message}");
-            // setState(() {
             List<String> part = state.message.split(' ');
             part.remove('Exception:');
             String errorMessage = part.join(' ');
-            // });
             Fluttertoast.showToast(
               msg: errorMessage,
               toastLength: Toast.LENGTH_SHORT,

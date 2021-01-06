@@ -21,15 +21,19 @@ class UserRepository {
       // print("exception = ${e.message}");
       print("exception code ${e.code}");
       String authError;
-      switch(e.code){
-        case 'email-already-in-use': authError = "Email is already in use";
-        break;
-        case 'network-error': authError = "Network Error";
-        break;
-        case 'network-error': authError = "There is problem with the connection";
-        break;
-        case 'too-many-requests': authError = "Too many request";
-        break;
+      switch (e.code) {
+        case 'email-already-in-use':
+          authError = "Email is already in use";
+          break;
+        case 'network-error':
+          authError = "Network Error";
+          break;
+        case 'network-error':
+          authError = "There is problem with the connection";
+          break;
+        case 'too-many-requests':
+          authError = "Too many request";
+          break;
         default:
           print("Case ${e.message} is not yet implemented");
           break;
@@ -45,13 +49,16 @@ class UserRepository {
       return result.user;
     } catch (e) {
       String authError = "";
-      switch(e.code){
-        case 'user-not-found': authError = "User does'nt exists.";
-        break;
-        case 'wrong-password': authError = "Wrong Password";
-        break;
-        case 'network-error': authError = "There is problem with the connection";
-        break;
+      switch (e.code) {
+        case 'user-not-found':
+          authError = "User does'nt exists.";
+          break;
+        case 'wrong-password':
+          authError = "Wrong Password";
+          break;
+        case 'network-error':
+          authError = "There is problem with the connection";
+          break;
         default:
           print("Case ${e.message} is not yet implemented");
           break;
@@ -76,17 +83,17 @@ class UserRepository {
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
-    // var result = await _auth.sendPasswordResetEmail(email: email);
-    try{
+    try {
       var result = await _auth.sendPasswordResetEmail(email: email);
       return result;
-    }catch(e){
+    } catch (e) {
       print("exception gnin ${e.message}");
       print("exception code ${e.code}");
       String resetMessage = "";
-      switch(e.code){
-        case 'user-not-found': resetMessage = "Email does'nt exists";
-        break;
+      switch (e.code) {
+        case 'user-not-found':
+          resetMessage = "Email does'nt exists";
+          break;
         default:
           print("Case ${e.message} is not yet implemented");
       }

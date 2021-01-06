@@ -14,10 +14,6 @@ class UserRegLoading extends UserRegState {
 }
 
 class UserRegSuccessful extends UserRegState {
-  User user;
-
-  UserRegSuccessful(this.user);
-
   @override
   List<Object> get props => throw UnimplementedError();
 }
