@@ -31,4 +31,3 @@ class LoginFailState extends LoginState {
   @override
   List<Object> get props => null;
 }
-

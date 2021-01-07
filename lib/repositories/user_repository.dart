@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 class UserRepository {
   FirebaseAuth firebaseAuth;
   FirebaseAuth _auth = FirebaseAuth.instance;
+  final googleSignIn = GoogleSignIn();
 
   UserRepository() {
     this.firebaseAuth = FirebaseAuth.instance;
@@ -72,6 +73,59 @@ class UserRepository {
   Future<bool> isSignedIn() async {
     var currentUser = await firebaseAuth.currentUser;
     return currentUser != null;
+  }
+
+  Future<User> signInWithGoogle() async {
+    print("Goooogle");
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    // Create a new credential
+    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    await _auth.signInWithCredential(credential);
+    return await firebaseAuth.currentUser;
+  }
+
+  Future<User> signInWithFacebook() async {
+    // final FacebookLogin fbLogin = new FacebookLogin();
+    // final FacebookLoginResult facebookLoginResult =
+    //     await fbLogin.logIn(['email', 'public_profile']);
+    // if (facebookLoginResult.status == FacebookLoginStatus.loggedIn) {
+    //   FacebookAccessToken facebookAccessToken = facebookLoginResult.accessToken;
+    //   print(facebookAccessToken);
+    //   // return await firebaseAuth.currentUser;
+    // }
+
+    try {
+      var facebookLogin = new FacebookLogin();
+      var result = await facebookLogin.logIn(['email']);
+      FacebookAccessToken myToken = result.accessToken;
+
+      if (result.status == FacebookLoginStatus.loggedIn) {
+        final AuthCredential credential =
+            FacebookAuthProvider.credential(myToken.token);
+        final User user =
+            (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+        //print('signed in ' + user.displayName);
+        // return user;
+        return await firebaseAuth.currentUser;
+      }
+    } catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<void> logOut() async {
+    await googleSignIn.disconnect();
+    await FirebaseAuth.instance.signOut();
   }
 
   Future<User> getCurrentUser() async {

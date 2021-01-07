@@ -22,7 +22,6 @@ class UserRegBloc extends Bloc<UserRegEvent, UserRegState> {
         var user = await userRepository.signUpUserWithEmailPass(
             event.email, event.password);
         print("BLoC : ${user.email}");
-        // yield UserRegSuccessful(user);
         yield UserRegSuccessful();
         userRepository.signOut();
       } catch (e) {

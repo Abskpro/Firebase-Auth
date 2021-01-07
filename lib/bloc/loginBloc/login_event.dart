@@ -11,3 +11,12 @@ class LoginButtonPressed extends LoginEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+class GoogleButtonPressed extends LoginEvent {
+  @override
+  List<Object> get props => throw UnimplementedError();
+}
+
+class FacebookButtonPressed extends LoginEvent {
+  @override
+  List<Object> get props => throw UnimplementedError();
+}

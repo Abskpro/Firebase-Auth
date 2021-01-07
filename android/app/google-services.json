@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "695904517922-4sr3v4j5gkmq7icblefm0qm0qku54csj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zeroday",
+            "certificate_hash": "59915895dd4910b491ccd447bb98ccd805426529"
+          }
+        },
+        {
           "client_id": "695904517922-gcoartr5qnj2on5q0n50km0l09jgq6dd.apps.googleusercontent.com",
           "client_type": 3
         }

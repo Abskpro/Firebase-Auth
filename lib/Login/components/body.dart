@@ -82,6 +82,16 @@ class _BodyState extends State<Body> {
     loginBloc.add(LoginButtonPressed(email: email, password: password));
   }
 
+  void googleSignIn() {
+    print("fasdfasdf");
+    loginBloc.add(GoogleButtonPressed());
+  }
+
+  void facebookSignIn() {
+    print("fasdfasdf");
+    loginBloc.add(FacebookButtonPressed());
+  }
+
   showAlertDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
         content: new Row(
@@ -108,12 +118,12 @@ class _BodyState extends State<Body> {
           child: SingleChildScrollView(
         child: BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
           if (state is LoginSuccessState) {
-            Navigator.pop(context);
-            Navigator.pop(context);
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return LandingPage(
-                  user: state.user, userRepository: widget.userRepository);
-            }));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => LandingPage(
+                        user: state.user,
+                        userRepository: widget.userRepository)),
+                (Route<dynamic> route) => false);
           }
           if (state is LoginFailState) {
             Navigator.pop(context);
@@ -189,7 +199,7 @@ class _BodyState extends State<Body> {
                   ),
                   SizedBox(height: 15),
                   Text("Or connect using"),
-                  SocialLink(),
+                  SocialLink(google: googleSignIn, facebook: facebookSignIn),
                   SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
