@@ -108,18 +108,18 @@ class UserRepository {
       var facebookLogin = new FacebookLogin();
       var result = await facebookLogin.logIn(['email']);
       FacebookAccessToken myToken = result.accessToken;
-
+      print(">>>>>>>>>>>>>> ${result.status}");
       if (result.status == FacebookLoginStatus.loggedIn) {
         final AuthCredential credential =
             FacebookAuthProvider.credential(myToken.token);
         final User user =
             (await FirebaseAuth.instance.signInWithCredential(credential)).user;
-        //print('signed in ' + user.displayName);
-        // return user;
         return await firebaseAuth.currentUser;
+      } else {
+        return null;
       }
     } catch (e) {
-      print(e.message);
+      print("message ??????? ${e.message}");
     }
   }
 

@@ -43,7 +43,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginLoadingState();
       try {
         var user = await userRepository.signInWithFacebook();
-        yield LoginSuccessState(user);
+        if (user != null) {
+          yield LoginSuccessState(user);
+        } else {
+          yield LoginInitialState();
+        }
       } catch (e) {
         print("error is: ${e.toString()}");
         yield LoginFailState(e.toString());

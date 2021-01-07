@@ -143,6 +143,10 @@ class _BodyState extends State<Body> {
           if (state is LoginLoadingState) {
             showAlertDialog(context);
           }
+          if (state is LoginInitialState) {
+            print("yahooo you canceled it");
+            Navigator.pop(context);
+          }
         }, builder: (context, state) {
           return Container(
             width: double.infinity,
