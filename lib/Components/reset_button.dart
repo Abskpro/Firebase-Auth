@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:zeroday/Components/text_field_container.dart';
 
-class RoundedButton extends StatefulWidget {
+class ResetButton extends StatefulWidget {
   final TextEditingController controller;
   final Function validate;
   final Function onChanged;
   final Function validateEmail;
-  final Function validatePassword;
   final Color color, textColor;
   final String text;
   final Function press;
-  const RoundedButton(
+  const ResetButton(
       {Key key,
       this.controller,
       this.validate,
       this.onChanged,
       this.color,
       this.press,
-      this.validatePassword,
       this.validateEmail,
       this.text,
       this.textColor});
   @override
-  _RoundedButtonState createState() => _RoundedButtonState();
+  _ResetButtonState createState() => _ResetButtonState();
 }
 
-class _RoundedButtonState extends State<RoundedButton> {
+class _ResetButtonState extends State<ResetButton> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -35,8 +33,8 @@ class _RoundedButtonState extends State<RoundedButton> {
         child: ClipRRect(
             borderRadius: BorderRadius.circular(29),
             child: RaisedButton(
-              color:Colors.lightGreen,
-                onPressed: widget.validateEmail(checkEmpty:true) && widget.validatePassword(checkEmpty:true)
+                color: Colors.lightGreen,
+                onPressed: widget.validateEmail(checkEmpty: true)
                     ? widget.press
                     : null,
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),

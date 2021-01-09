@@ -6,6 +6,7 @@ class PasswordInput extends StatefulWidget {
   final TextEditingController controller;
   final String text;
   final Function validate;
+  final String type;
   final bool isConfirm;
   final Function onChanged;
   final String screen;
@@ -13,6 +14,7 @@ class PasswordInput extends StatefulWidget {
     Key key,
     this.controller,
     this.validate,
+    this.type,
     this.isConfirm,
     this.screen,
     this.text,
@@ -23,6 +25,11 @@ class PasswordInput extends StatefulWidget {
 }
 
 class _PasswordInputState extends State<PasswordInput> {
+  bool visibility;
+  void initState(){
+    super.initState();
+    visibility = false;
+  }
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
@@ -38,16 +45,34 @@ class _PasswordInputState extends State<PasswordInput> {
         }
         return null;
       },
-      onChanged: (value) => widget.onChanged("confirmPassword", value),
+       onChanged: (value){
+            if(widget.type == "password"){
+              widget.onChanged("password", value);
+            }else{
+              widget.onChanged("confirmPassword",value);
+            }
+            },
+          obscureText: visibility,
       decoration: InputDecoration(
         errorText:widget.validate() ? null : "password must match",
         hintText: widget.text,
         prefixIcon: Icon(
-          Icons.visibility,
+          Icons.lock_outline,
           color: kPrimaryColor,
+        ),
+        suffixIcon: InkWell(
+          onTap:(){
+            setState(() {
+              visibility = !visibility;
+            });
+          },
+          child:Icon(visibility ? Icons.visibility : Icons.visibility_off),
+
         ),
         border: InputBorder.none,
       ),
     ));
   }
 }
+
+

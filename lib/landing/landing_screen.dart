@@ -68,14 +68,17 @@ class _LandingPageState extends State<LandingPage> {
                     }
                   },
                   builder: (context, state) {
-                    print(widget.user);
+                    print("${widget.user.metadata}");
                     var email = widget.user.email;
                     var uid = widget.user.uid;
+                    var lastSignIn = widget.user.metadata.lastSignInTime;
                     return Container(
                       alignment: Alignment.center,
-                      child: Column(
-                        children: [Text("Email: $email"), Text("Id: $uid"),
-                        ],
+                      child:Card(
+                        child: Column(
+                          children: [Text("Email: $email",style: TextStyle(fontWeight: FontWeight.bold),), Text("Id: $uid",style: TextStyle(fontWeight: FontWeight.bold),),Text("LastSignIn:$lastSignIn", style: TextStyle(fontWeight: FontWeight.bold),)
+                          ],
+                        ),
                       ),
                     );
                   },

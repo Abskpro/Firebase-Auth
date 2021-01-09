@@ -49,9 +49,7 @@ class App extends StatelessWidget {
       builder: (context, state) {
         print(state);
         if (state is AuthInitialState) {
-          // return Container();
           return LoginScreen(userRepository: userRepository);
-          // return SplashPage();
         } else if (state is AuthenticatedState) {
           return LandingPage(user: state.user, userRepository: userRepository);
         } else if (state is UnauthenticatedState ||

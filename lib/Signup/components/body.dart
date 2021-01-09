@@ -5,6 +5,7 @@ import 'package:zeroday/Components/email_input.dart';
 import 'package:zeroday/Components/number_input.dart';
 import 'package:zeroday/Components/password_input.dart';
 import 'package:zeroday/Components/rounded_button.dart';
+import 'package:zeroday/Components/signup_button.dart';
 import 'package:zeroday/Signup/components/background.dart';
 import 'package:zeroday/bloc/regBloc/reg_bloc.dart';
 import 'package:zeroday/bloc/regBloc/reg_event.dart';
@@ -62,7 +63,7 @@ class _BodyState extends State<Body> {
       setState(() {
         number = value;
       });
-    } else {
+    } else if(type == "confirmPassword") {
       setState(() {
         confirmPassword = value;
       });
@@ -97,44 +98,48 @@ class _BodyState extends State<Body> {
     });
   }
 
-  bool validateEmail() {
+  bool validateEmail({checkEmpty: false}) {
     print("validating email");
-    return email.isEmpty ||
+    return (email.isEmpty && !checkEmpty) ||
         RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(email);
   }
 
-  bool validatePassword() {
-    print("validating password");
-    // return password.isEmpty || password.length > 8;
-    return true;
+  bool validatePassword({checkEmpty: false}) {
+    // print("validating password");
+    return (password.isEmpty && !checkEmpty) || password.length > 8;
+    // return true;
   }
 
-  bool validateNumber() {
+  bool validateNumber({checkEmpty: false}) {
     print("validating number");
-    return number.isEmpty || number.length == 10;
+    return (number.isEmpty && !checkEmpty) || number.length == 10 || RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$').hasMatch(number);
   }
 
-  bool validateConfirmPassword() {
+  bool validateConfirmPassword({checkEmpty: false}) {
     print("validating confirm password");
-    return password.isEmpty || password == confirmPassword;
+    print(confirmPassword);
+    print(password);
+    return (confirmPassword.isEmpty && !checkEmpty) || confirmPassword == password ;
+    // return (confirmPassword.isEmpty && !checkEmpty) || password == confirmPassword;
   }
 
   void validate() async {
     userRegBloc.add(SignUpButtonPressed(email: email, password: password));
   }
 
-  showAlertDialog(BuildContext context){
+  showAlertDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
         content: new Row(
-          children: [
-            CircularProgressIndicator(),
-            Container(margin:EdgeInsets.only(left:5),child:Text("Loading"))
-          ],
-        )
-    );
-    showDialog(barrierDismissible: false, context:context,
-      builder:(BuildContext context){
+      children: [
+        CircularProgressIndicator(),
+        Container(margin: EdgeInsets.only(left: 5), child: Text("Loading"))
+      ],
+    ));
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
         return alert;
       },
     );
@@ -160,7 +165,7 @@ class _BodyState extends State<Body> {
               textColor: Colors.white,
               fontSize: 18.0,
             );
-          }else if (state is UserRegFailure){
+          } else if (state is UserRegFailure) {
             Navigator.pop(context);
             List<String> part = state.message.split(' ');
             part.remove('Exception:');
@@ -173,7 +178,7 @@ class _BodyState extends State<Body> {
               textColor: Colors.white,
               fontSize: 18.0,
             );
-          }else if (state is UserRegLoading){
+          } else if (state is UserRegLoading) {
             showAlertDialog(context);
           }
         }, builder: (context, state) {
@@ -182,16 +187,18 @@ class _BodyState extends State<Body> {
             alignment: Alignment.center,
             child: Form(
               key: formkey,
-              // autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: [
                   Text(
                     "SIGNUP",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height:10),
+                  SizedBox(height: 10),
                   Container(
-                    child: Image.asset("assets/images/register.png",height: 200,),
+                    child: Image.asset(
+                      "assets/images/register.png",
+                      height: 200,
+                    ),
                   ),
                   EmailInput(
                     controller: emailController,
@@ -206,33 +213,31 @@ class _BodyState extends State<Body> {
                   PasswordInput(
                     text: "Password",
                     controller: passwordController,
+                    type:"password",
                     isConfirm: false,
-                    validate:validatePassword,
+                    validate: validatePassword,
                     onChanged: onChanged,
                   ),
                   PasswordInput(
                     text: "Confim Password",
+                    type:"confirmPassword",
                     screen: "Signup",
                     controller: confirmPasswordController,
-                    isConfirm:true,
-                    validate:validateConfirmPassword,
+                    validate: validateConfirmPassword,
                     onChanged: onChanged,
                   ),
                   SizedBox(
                     height: 25,
                   ),
-                  RoundedButton(
+                  SignUpButton(
                     validateEmail: validateEmail,
                     validatePassword: validatePassword,
+                    validateNumber: validateNumber,
+                    validateConfirmPassword: validateConfirmPassword,
                     press: validate,
-                    text: "CREATE",
+                    text: "Register",
                     color: Colors.blue,
                   ),
-                  // SizedBox(height: 12),
-                  // Text(
-                  //   error,
-                  //   style: TextStyle(color: Colors.red, fontSize: 14.0),
-                  // )
                 ],
               ),
             ),
