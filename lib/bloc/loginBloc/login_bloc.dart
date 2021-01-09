@@ -28,5 +28,30 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginFailState(e.toString());
       }
     }
+    if (event is GoogleButtonPressed) {
+      yield LoginLoadingState();
+      try {
+        var user = await userRepository.signInWithGoogle();
+        print("fasdfsafsadfasdfasdfasdf $user");
+        yield LoginSuccessState(user);
+      } catch (e) {
+        print("error is: ${e.toString()}");
+        yield LoginFailState(e.toString());
+      }
+    }
+    if (event is FacebookButtonPressed) {
+      yield LoginLoadingState();
+      try {
+        var user = await userRepository.signInWithFacebook();
+        if (user != null) {
+          yield LoginSuccessState(user);
+        } else {
+          yield LoginInitialState();
+        }
+      } catch (e) {
+        print("error is: ${e.toString()}");
+        yield LoginFailState(e.toString());
+      }
+    }
   }
 }

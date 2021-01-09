@@ -11,18 +11,6 @@ class SignUpScreen extends StatelessWidget {
       body: Body(
         userRepository: userRepository,
       ),
-      // appBar: buildAppBar(context),
     );
   }
-
-//   AppBar buildAppBar(BuildContext context) {
-//     return AppBar(
-//       backgroundColor: Colors.white,
-//       elevation: 0,
-//       leading: IconButton(
-//         icon: Image.asset('assets/icons/backArrow.png'),
-//         onPressed: () => Navigator.pop(context),
-//       ),
-//     );
-//   }
 }

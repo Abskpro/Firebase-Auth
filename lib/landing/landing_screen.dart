@@ -8,14 +8,12 @@ import 'package:zeroday/Login/login_screen.dart';
 import 'package:zeroday/bloc/homeBloc/home_bloc.dart';
 import 'package:zeroday/bloc/homeBloc/home_event.dart';
 import 'package:zeroday/bloc/homeBloc/home_state.dart';
-import 'package:zeroday/models/interns.dart';
-import 'package:provider/provider.dart';
 import 'package:zeroday/repositories/user_repository.dart';
 
 class LandingPage extends StatefulWidget {
   // final AuthService _auth = AuthService();
-  User user;
-  UserRepository userRepository;
+  final User user;
+  final UserRepository userRepository;
   LandingPage({this.user, this.userRepository});
 
   @override
@@ -32,60 +30,68 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.user);
-    print(widget.userRepository);
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-          backgroundColor: Colors.brown[50],
-          appBar: AppBar(
-            title: Text("Landing Page"),
-            backgroundColor: Colors.brown[400],
-            elevation: 0.0,
-            actions: <Widget>[
-              FlatButton.icon(
-                icon: Icon(Icons.person),
-                onPressed: () {
-                  homePageBloc.add(LogOutEvent());
+    return Scaffold(
+        backgroundColor: Colors.brown[50],
+        appBar: AppBar(
+          title: Text("Landing Page"),
+          backgroundColor: Colors.brown[400],
+          elevation: 0.0,
+          actions: <Widget>[
+            FlatButton.icon(
+              icon: Icon(Icons.person),
+              onPressed: () {
+                homePageBloc.add(LogOutEvent());
+              },
+              label: Text('logout'),
+            )
+          ],
+        ),
+        body: BlocProvider<HomePageBloc>(
+          create: (BuildContext context) => homePageBloc,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BlocConsumer<HomePageBloc, HomePageState>(
+                listener: (context, state) {
+                  if (state is LogOutSuccessState) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => LoginScreen(
+                                userRepository: widget.userRepository)),
+                        (Route<dynamic> route) => false);
+                  }
                 },
-                label: Text('logout'),
+                builder: (context, state) {
+                  print("${widget.user.metadata}");
+                  var email = widget.user.email;
+                  var uid = widget.user.uid;
+                  var lastSignIn = widget.user.metadata.lastSignInTime;
+                  return Container(
+                    alignment: Alignment.center,
+                    child: Card(
+                      child: Column(
+                        children: [
+                          Image.asset("assets/images/slip.png"),
+                          Text(
+                            "Email: $email",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Id: $uid",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "LastSignIn:$lastSignIn",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
               )
             ],
           ),
-          body: BlocProvider<HomePageBloc>(
-            create: (BuildContext context) => homePageBloc,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                BlocConsumer<HomePageBloc, HomePageState>(
-                  listener: (context, state) {
-                    if (state is LogOutSuccessState) {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return LoginScreen(
-                            userRepository: widget.userRepository);
-                      }));
-                    }
-                  },
-                  builder: (context, state) {
-                    print("${widget.user.metadata}");
-                    var email = widget.user.email;
-                    var uid = widget.user.uid;
-                    var lastSignIn = widget.user.metadata.lastSignInTime;
-                    return Container(
-                      alignment: Alignment.center,
-                      child:Card(
-                        child: Column(
-                          children: [Text("Email: $email",style: TextStyle(fontWeight: FontWeight.bold),), Text("Id: $uid",style: TextStyle(fontWeight: FontWeight.bold),),Text("LastSignIn:$lastSignIn", style: TextStyle(fontWeight: FontWeight.bold),)
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                )
-              ],
-            ),
-          )),
-    );
+        ));
   }
 }

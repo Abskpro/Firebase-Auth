@@ -42,7 +42,7 @@ dev_dependencies:
   fluttertoast: ^7.1.6
   font_awesome_flutter: ^8.11.0
   flutter_svg: ^0.17.4
-
+  flutter_facebook_login: ^3.0.0
 
 
 

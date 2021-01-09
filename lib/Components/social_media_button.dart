@@ -4,8 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class SocialButton extends StatelessWidget {
   final String text;
   final Color textColor;
+  final Function press;
   final Color bgColor;
-  SocialButton({Key key, this.bgColor, this.text, this.textColor});
+  SocialButton({Key key, this.press, this.bgColor, this.text, this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +17,8 @@ class SocialButton extends StatelessWidget {
         child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: RaisedButton(
-              color: bgColor,
-                onPressed: () {},
+                color: bgColor,
+                onPressed: press,
                 // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                 child: Text(
                   text,

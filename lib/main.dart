@@ -6,7 +6,6 @@ import 'package:zeroday/bloc/authBloc/auth_event.dart';
 import 'package:zeroday/bloc/authBloc/auth_state.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:zeroday/bloc/homeBloc/home_state.dart';
-import 'package:zeroday/bloc/loginBloc/login_state.dart';
 import 'package:zeroday/bloc/resetBloc/reset_state.dart';
 import 'package:zeroday/landing/landing_screen.dart';
 import 'package:zeroday/repositories/user_repository.dart';
@@ -48,7 +47,7 @@ class App extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         print(state);
-        if (state is AuthInitialState) {
+        if (state is AuthInitialState || state is LogOutSuccessState) {
           return LoginScreen(userRepository: userRepository);
         } else if (state is AuthenticatedState) {
           return LandingPage(user: state.user, userRepository: userRepository);

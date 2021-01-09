@@ -12,9 +12,6 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   }
 
   @override
-  HomePageState get initialState => LogOutInitial();
-
-  @override
   Stream<HomePageState> mapEventToState(HomePageEvent event) async* {
     if (event is LogOutEvent) {
       print("LOG out Bloc");

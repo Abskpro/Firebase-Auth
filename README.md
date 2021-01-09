@@ -6,3 +6,4 @@ Flutter application with bloc statemanagement and firebase authentication with f
 
 ![screenshot](./screenshots/Frontend.JPG);
 ![screenshot](./screenshots/Frontend2.JPG);
+![screenshot](./screenshots/Landing.JPG);

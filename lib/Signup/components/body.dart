@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zeroday/Components/email_input.dart';
 import 'package:zeroday/Components/number_input.dart';
 import 'package:zeroday/Components/password_input.dart';
-import 'package:zeroday/Components/rounded_button.dart';
 import 'package:zeroday/Components/signup_button.dart';
 import 'package:zeroday/Signup/components/background.dart';
 import 'package:zeroday/bloc/regBloc/reg_bloc.dart';
@@ -63,7 +62,7 @@ class _BodyState extends State<Body> {
       setState(() {
         number = value;
       });
-    } else if(type == "confirmPassword") {
+    } else if (type == "confirmPassword") {
       setState(() {
         confirmPassword = value;
       });
@@ -113,15 +112,18 @@ class _BodyState extends State<Body> {
 
   bool validateNumber({checkEmpty: false}) {
     print("validating number");
-    return (number.isEmpty && !checkEmpty) || number.length == 10 || RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$').hasMatch(number);
+    return (number.isEmpty && !checkEmpty) ||
+        number.length == 10 ||
+        RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$')
+            .hasMatch(number);
   }
 
   bool validateConfirmPassword({checkEmpty: false}) {
     print("validating confirm password");
     print(confirmPassword);
     print(password);
-    return (confirmPassword.isEmpty && !checkEmpty) || confirmPassword == password ;
-    // return (confirmPassword.isEmpty && !checkEmpty) || password == confirmPassword;
+    return (confirmPassword.isEmpty && !checkEmpty) ||
+        confirmPassword == password;
   }
 
   void validate() async {
@@ -147,7 +149,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return BlocProvider<UserRegBloc>(
       create: (BuildContext context) => userRegBloc,
       child: Background(
@@ -213,14 +215,14 @@ class _BodyState extends State<Body> {
                   PasswordInput(
                     text: "Password",
                     controller: passwordController,
-                    type:"password",
+                    type: "password",
                     isConfirm: false,
                     validate: validatePassword,
                     onChanged: onChanged,
                   ),
                   PasswordInput(
                     text: "Confim Password",
-                    type:"confirmPassword",
+                    type: "confirmPassword",
                     screen: "Signup",
                     controller: confirmPasswordController,
                     validate: validateConfirmPassword,

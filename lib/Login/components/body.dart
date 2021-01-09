@@ -14,13 +14,10 @@ import 'package:zeroday/bloc/loginBloc/login_state.dart';
 import 'package:zeroday/landing/landing_screen.dart';
 import 'package:zeroday/repositories/user_repository.dart';
 
-
-
 class Body extends StatefulWidget {
   final UserRepository userRepository;
   Body({this.userRepository});
   @override
-  // _BodyState createState() => _BodyState();
   _BodyState createState() {
     return new _BodyState();
   }
@@ -71,33 +68,44 @@ class _BodyState extends State<Body> {
     });
   }
 
-  bool validateEmail({checkEmpty:false}) {
-    return (email.isEmpty && !checkEmpty)||
+  bool validateEmail({checkEmpty: false}) {
+    return (email.isEmpty && !checkEmpty) ||
         RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(email);
   }
 
-  bool validatePassword({checkEmpty:false}) {
+  bool validatePassword({checkEmpty: false}) {
     return (password.isEmpty && !checkEmpty) || password.length > 8;
   }
 
   void validate() async {
-      await loginBloc.add(LoginButtonPressed(email: email, password: password));
+    loginBloc.add(LoginButtonPressed(email: email, password: password));
   }
 
-  showAlertDialog(BuildContext context){
+  void googleSignIn() {
+    print("fasdfasdf");
+    loginBloc.add(GoogleButtonPressed());
+  }
+
+  void facebookSignIn() {
+    print("fasdfasdf");
+    loginBloc.add(FacebookButtonPressed());
+  }
+
+  showAlertDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
-      content: new Row(
-        children: [
-          CircularProgressIndicator(),
-          Container(margin:EdgeInsets.only(left:5),child:Text("Loading"))
-        ],
-      )
-    );
-    showDialog(barrierDismissible: false, context:context,
-    builder:(BuildContext context){
-      return alert;
-    },
+        content: new Row(
+      children: [
+        CircularProgressIndicator(),
+        Container(margin: EdgeInsets.only(left: 5), child: Text("Loading"))
+      ],
+    ));
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
@@ -108,22 +116,21 @@ class _BodyState extends State<Body> {
       create: (BuildContext context) => loginBloc,
       child: Background(
           child: SingleChildScrollView(
-        child: BlocConsumer<LoginBloc, LoginState>(
-            listener: (context, state) {
+        child: BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
           if (state is LoginSuccessState) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return LandingPage(
-                  user: state.user, userRepository: widget.userRepository);
-            }));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => LandingPage(
+                        user: state.user,
+                        userRepository: widget.userRepository)),
+                (Route<dynamic> route) => false);
           }
           if (state is LoginFailState) {
             Navigator.pop(context);
             print("error >> ${state.message}");
-            // setState(() {
-              List<String> part = state.message.split(' ');
-              part.remove('Exception:');
-              String errorMessage = part.join(' ');
-            // });
+            List<String> part = state.message.split(' ');
+            part.remove('Exception:');
+            String errorMessage = part.join(' ');
             Fluttertoast.showToast(
               msg: errorMessage,
               toastLength: Toast.LENGTH_SHORT,
@@ -133,8 +140,12 @@ class _BodyState extends State<Body> {
               fontSize: 18.0,
             );
           }
-          if(state is LoginLoadingState){
+          if (state is LoginLoadingState) {
             showAlertDialog(context);
+          }
+          if (state is LoginInitialState) {
+            print("yahooo you canceled it");
+            Navigator.pop(context);
           }
         }, builder: (context, state) {
           return Container(
@@ -145,12 +156,12 @@ class _BodyState extends State<Body> {
               child: Column(
                 children: [
                   Text(
-                      "LOGIN",
-                    style:TextStyle(fontWeight: FontWeight.bold),
+                    "LOGIN",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
                   Container(
-                    child:Image.asset("assets/images/login_img.png"),
+                    child: Image.asset("assets/images/login_img.png"),
                   ),
                   EmailInput(
                     controller: emailController,
@@ -160,7 +171,7 @@ class _BodyState extends State<Body> {
                   PasswordInput(
                     text: "Password",
                     screen: "login",
-                    type:"password",
+                    type: "password",
                     controller: passwordController,
                     validate: validatePassword,
                     onChanged: onChanged,
@@ -170,7 +181,7 @@ class _BodyState extends State<Body> {
                   ),
                   Container(
                     alignment: Alignment.centerRight,
-                    padding: EdgeInsets.only(right:50.0),
+                    padding: EdgeInsets.only(right: 50.0),
                     child: InkWell(
                         onTap: () {
                           Navigator.push(context,
@@ -192,7 +203,7 @@ class _BodyState extends State<Body> {
                   ),
                   SizedBox(height: 15),
                   Text("Or connect using"),
-                  SocialLink(),
+                  SocialLink(google: googleSignIn, facebook: facebookSignIn),
                   SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
